@@ -422,26 +422,12 @@
   </div>
 
   <!-- FIREBASE MODULAR SDK + LÓGICA DE APLICACIÓN -->
-  <script type="module">
+ <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    // CLAVE EXCLUSIVA PARA EL ADMINISTRADOR SOLICITADA
     const ADMIN_PASSWORD = "23456";
 
-    // DATOS DE RESPALDO INICIALES
-    const INITIAL_RECORDS = [
-      { id: "AB123CD", placa: "AB123CD", cedula: "15894231", propietario: "CARLOS MANUEL RODRÍGUEZ", marca: "CHEVROLET", modelo: "AVEO", anocolor: "2011 - PLATA" },
-      { id: "XAP89T", placa: "XAP89T", cedula: "18452109", propietario: "MARÍA ELENA GÓMEZ", marca: "TOYOTA", modelo: "COROLLA", anocolor: "2015 - BLANCO" },
-      { id: "MD099Z", placa: "MD099Z", cedula: "24331002", propietario: "JOSÉ LUIS MENDOZA", marca: "BERA", modelo: "DT 200", anocolor: "2023 - ROJO" }
-    ];
-
-    let vehiclesList = [];
-    let isCloudActive = false;
-    let dbInstance = null;
-
-    // INICIALIZACIÓN DE FIREBASE (Configuración genérica lista para conectar tus credenciales)
-    try {
     const firebaseConfig = {
       apiKey: "AIzaSyD_psMWtmHT2evVQmqB-jDJTfld2s3_gA8",
       authDomain: "crespo-trimestre.firebaseapp.com",
@@ -451,51 +437,24 @@
       appId: "1:282298054681:web:c9f3658251191922665288"
     };
 
-      const app = initializeApp(firebaseConfig);
-      dbInstance = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const vehiculosRef = collection(db, "vehiculos_crespo");
 
-      // Escucha en tiempo real si hay conexión activa
-      const collRef = collection(dbInstance, "vehiculos_crespo");
-      onSnapshot(collRef, (snapshot) => {
-        if (!snapshot.empty) {
-          vehiclesList = [];
-          snapshot.forEach(docSnap => {
-            vehiclesList.push({ id: docSnap.id, ...docSnap.data() });
-          });
-          isCloudActive = true;
-          window.renderAdminTable();
-        } else {
-          loadFromLocalStorage();
-        }
-      }, (err) => {
-        // En caso de modo offline o sin configurar reglas, funciona fluidamente con localStorage
-        loadFromLocalStorage();
-      });
-    } catch (e) {
-      loadFromLocalStorage();
-    }
+    let vehiclesList = [];
 
-    function loadFromLocalStorage() {
-      const local = localStorage.getItem("crespo_vehiculos_db");
-      if (local) {
-        vehiclesList = JSON.parse(local);
-      } else {
-        vehiclesList = [...INITIAL_RECORDS];
-        saveToLocal();
-      }
+    onSnapshot(vehiculosRef, (snapshot) => {
+      vehiclesList = [];
+      snapshot.forEach((d) => vehiclesList.push({ id: d.id, ...d.data() }));
       if (window.renderAdminTable) window.renderAdminTable();
-    }
+    }, (error) => {
+      alert("Error de conexión Firebase: " + error.message);
+    });
 
-    function saveToLocal() {
-      localStorage.setItem("crespo_vehiculos_db", JSON.stringify(vehiclesList));
-    }
-
-    // NORMALIZADOR PARA COMPARACIÓN DE PLACA O CÉDULA
     function cleanStr(val) {
       return (val || "").toString().toUpperCase().replace(/[^A-Z0-9]/g, "").trim();
     }
 
-    // CONSULTA PÚBLICA (UN SOLO CAMPO)
     window.handleSearch = function(e) {
       e.preventDefault();
       const inputVal = cleanStr(document.getElementById("searchInput").value);
@@ -517,10 +476,9 @@
         document.getElementById("resModelo").innerText = found.modelo.toUpperCase();
         document.getElementById("resAnoColor").innerText = found.anocolor || "NO ESPECIFICADO";
         
-        const today = new Date();
-        const year = today.getFullYear();
+        const year = new Date().getFullYear();
         document.getElementById("badgeSolvente").innerText = `SOLVENTE PARA EL AÑO ${year}`;
-        document.getElementById("currentDateStr").innerText = `Emitido el: ${today.toLocaleDateString('es-VE')}`;
+        document.getElementById("currentDateStr").innerText = `Emitido el: ${new Date().toLocaleDateString('es-VE')}`;
         document.getElementById("securityToken").innerText = `CR-TRIM-${year}-${Math.floor(100000 + Math.random() * 900000)}`;
 
         resultCard.classList.remove("hidden");
@@ -538,7 +496,6 @@
       document.getElementById("searchInput").focus();
     };
 
-    // PANEL ADMINISTRATIVO Y CLAVE
     window.openLoginModal = function() {
       document.getElementById("adminPassInput").value = "";
       document.getElementById("loginError").classList.add("hidden");
@@ -554,8 +511,7 @@
 
     window.handleAdminLogin = function(e) {
       e.preventDefault();
-      const enteredPass = document.getElementById("adminPassInput").value;
-      if (enteredPass === ADMIN_PASSWORD) {
+      if (document.getElementById("adminPassInput").value === ADMIN_PASSWORD) {
         closeLoginModal();
         openAdminPanel();
       } else {
@@ -587,7 +543,6 @@
       cancelEditMode();
     };
 
-    // RENDERIZADO DE TABLA ADMINISTRATIVA
     window.renderAdminTable = function() {
       const tbody = document.getElementById("vehicleTableBody");
       const filter = (document.getElementById("adminFilterInput").value || "").toLowerCase();
@@ -600,7 +555,7 @@
       );
 
       if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">No hay registros coincidentes</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">No hay vehículos registrados en la nube aún</td></tr>`;
       } else {
         filtered.forEach(v => {
           const tr = document.createElement("tr");
@@ -611,17 +566,17 @@
             <td class="p-2.5 font-medium">${v.propietario}</td>
             <td class="p-2.5">${v.marca} ${v.modelo}</td>
             <td class="p-2.5 text-center">
-              <button onclick="editVehicle('${v.id}')" class="text-blue-600 hover:text-blue-800 mr-2" title="Editar"><i class="fa-solid fa-pen-to-square"></i></button>
-              <button onclick="deleteVehicleRecord('${v.id}')" class="text-red-500 hover:text-red-700" title="Eliminar"><i class="fa-solid fa-trash-can"></i></button>
+              <button onclick="editVehicle('${v.id}')" class="text-blue-600 hover:text-blue-800 mr-2"><i class="fa-solid fa-pen-to-square"></i></button>
+              <button onclick="deleteVehicleRecord('${v.id}')" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash-can"></i></button>
             </td>
           `;
           tbody.appendChild(tr);
         });
       }
-      document.getElementById("dbCounter").innerText = `Total registrados: ${vehiclesList.length} vehículos`;
+      const counter = document.getElementById("dbCounter");
+      if (counter) counter.innerText = `Total en la nube: ${vehiclesList.length} vehículos`;
     };
 
-    // GUARDAR O ACTUALIZAR
     window.saveVehicleRecord = async function(e) {
       e.preventDefault();
       const docId = document.getElementById("vehicleDocId").value;
@@ -632,36 +587,25 @@
       const modelo = document.getElementById("vModelo").value.trim().toUpperCase();
       const anocolor = document.getElementById("vAnoColor").value.trim().toUpperCase();
 
-      const newRecord = {
+      const finalId = docId || cleanStr(placa);
+
+      const recordData = {
         placa,
         cedula,
         propietario,
         marca,
         modelo,
-        anocolor
+        anocolor,
+        actualizadoEl: new Date().toISOString()
       };
 
-      const finalId = docId || placa.replace(/[^A-Z0-9]/g, "");
-
-      if (isCloudActive && dbInstance) {
-        try {
-          await setDoc(doc(dbInstance, "vehiculos_crespo", finalId), newRecord);
-        } catch (err) {
-          console.warn("Sincronizando en almacenamiento local:", err);
-        }
+      try {
+        await setDoc(doc(db, "vehiculos_crespo", finalId), recordData);
+        alert("¡Guardado en la nube con éxito!");
+        cancelEditMode();
+      } catch (err) {
+        alert("Error al guardar en Firebase: " + err.message);
       }
-
-      const existingIndex = vehiclesList.findIndex(v => v.id === finalId);
-      if (existingIndex >= 0) {
-        vehiclesList[existingIndex] = { id: finalId, ...newRecord };
-      } else {
-        vehiclesList.push({ id: finalId, ...newRecord });
-      }
-
-      saveToLocal();
-      window.renderAdminTable();
-      cancelEditMode();
-      alert("Vehículo guardado exitosamente.");
     };
 
     window.editVehicle = function(id) {
@@ -689,19 +633,13 @@
     };
 
     window.deleteVehicleRecord = async function(id) {
-      if (!confirm("¿Está seguro de eliminar este vehículo del registro?")) return;
-
-      if (isCloudActive && dbInstance) {
-        try {
-          await deleteDoc(doc(dbInstance, "vehiculos_crespo", id));
-        } catch (err) {
-          console.warn("Eliminando localmente:", err);
-        }
+      if (!confirm("¿Eliminar este vehículo de la base de datos?")) return;
+      try {
+        await deleteDoc(doc(db, "vehiculos_crespo", id));
+        alert("Vehículo eliminado de la nube.");
+      } catch (err) {
+        alert("Error al eliminar: " + err.message);
       }
-
-      vehiclesList = vehiclesList.filter(v => v.id !== id);
-      saveToLocal();
-      window.renderAdminTable();
     };
 
     document.getElementById("searchForm").addEventListener("submit", window.handleSearch);
