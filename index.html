@@ -442,12 +442,14 @@
 
     // INICIALIZACIÓN DE FIREBASE (Configuración genérica lista para conectar tus credenciales)
     try {
-      const firebaseConfig = {
-        apiKey: "AIzaSyDummyKeyForTemplateUsageReplaceIfDesired",
-        authDomain: "crespo-trimestres.firebaseapp.com",
-        projectId: "crespo-trimestres",
-        storageBucket: "crespo-trimestres.appspot.com"
-      };
+    const firebaseConfig = {
+      apiKey: "AIzaSyD_psMWtmHT2evVQmqB-jDJTfld2s3_gA8",
+      authDomain: "crespo-trimestre.firebaseapp.com",
+      projectId: "crespo-trimestre",
+      storageBucket: "crespo-trimestre.firebasestorage.app",
+      messagingSenderId: "282298054681",
+      appId: "1:282298054681:web:c9f3658251191922665288"
+    };
 
       const app = initializeApp(firebaseConfig);
       dbInstance = getFirestore(app);
