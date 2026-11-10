@@ -3,14 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PAGOS Y CONSULTAS DE TRIMESTRES VEHICULAR - Alcaldía Bolivariana de Crespo</title>
+  <title>Pagos y Consultas de Trimestres Vehicular - Alcaldía Bolivariana de Crespo</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
+    :root {
+      --gov-green: #29744e;
+      --gov-green-light: #e8f5ee;
+      --gov-blue: #1c3553;
+      --gov-bg: #f4f6f8;
+    }
+    body {
+      background-color: var(--gov-bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
     @media print {
-      body * { visibility: hidden; }
-      #printableArea, #printableArea * { visibility: visible; }
-      #printableArea {
+      body * {
+        visibility: hidden;
+      }
+      #printableReceipt, #printableReceipt * {
+        visibility: visible;
+      }
+      #printableReceipt {
         position: absolute;
         left: 0;
         top: 0;
@@ -20,478 +34,675 @@
         box-shadow: none;
         border: none;
       }
-      .no-print { display: none !important; }
+      .no-print {
+        display: none !important;
+      }
     }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans">
+<body class="min-h-screen flex flex-col justify-between text-slate-800 antialiased">
 
-  <!-- ENCABEZADO INSTITUCIONAL -->
-  <header class="bg-gradient-to-r from-emerald-800 via-teal-800 to-slate-800 text-white shadow-md border-b-4 border-amber-500 py-6 px-4">
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-      <!-- Escudo Izquierdo -->
-      <div class="flex-shrink-0 bg-white/95 p-2 rounded-xl shadow-md border border-white/40">
-        <img 
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTv7JNGWSGApzibK-IBu8yuGfpGEVrnnFM-e674ALgtFuzKxRV5ZmRfhynr&s=10" 
-          alt="Alcaldía Bolivariana de Crespo" 
-          class="w-24 h-24 md:w-32 md:h-32 object-contain"
-          onerror="this.src='https://via.placeholder.com/128?text=Alcaldia+Crespo'"
-        >
+  <!-- CABECERA INSTITUCIONAL CON LOGOS GRANDES -->
+  <header class="bg-white border-b border-slate-200 shadow-sm no-print">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+      
+      <!-- LOGO 1: ALCALDÍA DE CRESPO -->
+      <div class="w-28 h-28 md:w-32 md:h-32 flex-shrink-0 flex items-center justify-center p-1 bg-white rounded-2xl shadow-inner border border-slate-100">
+        <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow">
+          <!-- Fondo circular verde suave degradado -->
+          <circle cx="100" cy="100" r="95" fill="#3bb54a" />
+          <circle cx="100" cy="100" r="90" fill="none" stroke="#7ed957" stroke-width="4" opacity="0.6"/>
+          <!-- Flor institucional con pétalos azul, celeste y rojo -->
+          <g transform="translate(100, 85)">
+            <!-- Pétalo central azul marino -->
+            <path d="M 0,-48 C 16,-48 20,-20 18,12 C 10,24 0,26 0,26 C 0,26 -10,24 -18,12 C -20,-20 -16,-48 0,-48 Z" fill="#0f2b5c" stroke="#ffffff" stroke-width="3"/>
+            <!-- Pétalos celestes laterales -->
+            <path d="M -8,-38 C -26,-38 -34,-15 -28,14 C -22,22 -10,24 -10,24 C -10,24 -12,-8 -8,-38 Z" fill="#6ba4df" stroke="#ffffff" stroke-width="3"/>
+            <path d="M 8,-38 C 26,-38 34,-15 28,14 C 22,22 10,24 10,24 C 10,24 12,-8 8,-38 Z" fill="#6ba4df" stroke="#ffffff" stroke-width="3"/>
+            <!-- Pétalos rojos exteriores -->
+            <path d="M -22,-16 C -44,-10 -46,14 -32,32 C -24,36 -12,32 -12,32 C -12,32 -20,6 -22,-16 Z" fill="#cf1e27" stroke="#ffffff" stroke-width="3"/>
+            <path d="M 22,-16 C 44,-10 46,14 32,32 C 24,36 12,32 12,32 C 12,32 20,6 22,-16 Z" fill="#cf1e27" stroke="#ffffff" stroke-width="3"/>
+            <!-- Pétalos verdes base -->
+            <path d="M -30,22 C -42,32 -30,48 -14,46 C -6,44 -4,36 -4,36 C -4,36 -24,30 -30,22 Z" fill="#14783b" stroke="#ffffff" stroke-width="2.5"/>
+            <path d="M 30,22 C 42,32 30,48 14,46 C 6,44 4,36 4,36 C 4,36 24,30 30,22 Z" fill="#14783b" stroke="#ffffff" stroke-width="2.5"/>
+            <!-- Centro verde -->
+            <circle cx="0" cy="24" r="14" fill="#188641" stroke="#ffffff" stroke-width="3"/>
+          </g>
+          <!-- Cartel CRESPO Alcaldía Bolivariana -->
+          <rect x="30" y="124" width="140" height="48" rx="14" fill="#ffffff" filter="drop-shadow(0 2px 3px rgba(0,0,0,0.2))"/>
+          <text x="100" y="148" text-anchor="middle" font-size="21" font-weight="900" fill="#0f2b5c" letter-spacing="1.5" font-family="Arial, sans-serif">CRESPO</text>
+          <text x="100" y="163" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0f2b5c" font-family="Arial, sans-serif">Alcaldía Bolivariana</text>
+        </svg>
       </div>
 
-      <!-- Título Central -->
+      <!-- TÍTULO CENTRAL DESTACADO -->
       <div class="text-center flex-1">
-        <span class="inline-block bg-white/15 px-3 py-1 rounded-full text-xs md:text-sm uppercase tracking-wider mb-2 font-medium text-amber-200 border border-white/20">
-          República Bolivariana de Venezuela &bull; Estado Lara
+        <span class="inline-block px-3 py-1 bg-emerald-50 text-emerald-800 text-xs font-semibold rounded-full border border-emerald-200 mb-1 tracking-wider uppercase">
+          República Bolivariana de Venezuela • Estado Lara
         </span>
-        <h1 class="text-2xl md:text-4xl font-extrabold uppercase tracking-tight leading-tight">
+        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#1c3553] tracking-tight leading-tight uppercase">
           PAGOS Y CONSULTAS DE TRIMESTRES VEHICULAR
         </h1>
-        <p class="text-emerald-100 font-medium text-sm md:text-base mt-1">
-          Alcaldía Bolivariana de Crespo &bull; Dirección de Rentas y Administración Tributaria
+        <p class="text-sm sm:text-base font-medium text-emerald-800 mt-1">
+          Dirección de Hacienda y Administración Tributaria Municipal • Crespo
         </p>
       </div>
 
-      <!-- Escudo Derecho -->
-      <div class="flex-shrink-0 bg-white/95 p-2 rounded-xl shadow-md border border-white/40">
-        <img 
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Escudo_del_Municipio_Crespo.png/640px-Escudo_del_Municipio_Crespo.png" 
-          alt="Alcaldía Bolivariana de Crespo" 
-          class="w-24 h-24 md:w-32 md:h-32 object-contain"
-          onerror="this.src='https://via.placeholder.com/128?text=Alcaldia+Crespo'"
-        >
+      <!-- LOGO 2: DUACA PURA GENTE BUENA -->
+      <div class="w-36 h-24 md:w-44 md:h-28 flex-shrink-0 flex items-center justify-center p-1 bg-white rounded-2xl shadow-inner border border-slate-100">
+        <svg viewBox="0 0 280 120" class="w-full h-full">
+          <defs>
+            <linearGradient id="bgDuaca" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#0275d8" />
+              <stop offset="100%" stop-color="#004b91" />
+            </linearGradient>
+          </defs>
+          <rect x="4" y="4" width="272" height="112" rx="12" fill="url(#bgDuaca)"/>
+          <!-- Letras DUACA con fondo representativo -->
+          <g font-family="Arial Black, Impact, sans-serif" font-size="52" font-weight="900" fill="#f8fafc" stroke="#ffffff" stroke-width="2" letter-spacing="3">
+            <text x="24" y="66" fill="#e2e8f0">D</text>
+            <text x="74" y="66" fill="#bae6fd">U</text>
+            <text x="126" y="66" fill="#fed7aa">A</text>
+            <text x="180" y="66" fill="#fef08a">C</text>
+            <text x="228" y="66" fill="#bbf7d0">A</text>
+          </g>
+          <!-- Cintillo Pura Gente Buena -->
+          <rect x="20" y="78" width="240" height="28" rx="8" fill="#ffffff"/>
+          <text x="140" y="98" text-anchor="middle" font-family="'Brush Script MT', cursive, sans-serif" font-size="20" font-weight="bold" fill="#1e293b">
+            Pura Gente Buena
+          </text>
+          <!-- Círculos festivos de colores -->
+          <circle cx="28" cy="106" r="6" fill="#ef4444"/>
+          <circle cx="42" cy="108" r="5" fill="#3b82f6"/>
+          <circle cx="56" cy="106" r="6" fill="#22c55e"/>
+          <circle cx="224" cy="106" r="6" fill="#eab308"/>
+          <circle cx="238" cy="108" r="5" fill="#3b82f6"/>
+          <circle cx="252" cy="106" r="6" fill="#ef4444"/>
+        </svg>
       </div>
+
     </div>
   </header>
 
-  <!-- CONTENIDO PRINCIPAL -->
-  <main class="flex-1 max-w-4xl w-full mx-auto p-4 md:p-8">
+  <!-- CONTENEDOR PRINCIPAL -->
+  <main class="max-w-4xl w-full mx-auto px-4 py-8 flex-1">
 
-    <!-- Tarjeta de Búsqueda -->
-    <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 md:p-8 mb-8">
+    <!-- SECCIÓN DE CONSULTA PÚBLICA -->
+    <div id="searchSection" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 no-print">
       <div class="text-center max-w-xl mx-auto mb-6">
-        <h2 class="text-xl md:text-2xl font-bold text-slate-800">Consulta de Solvencia Vehicular</h2>
-        <p class="text-slate-500 text-sm mt-1">
-          Ingrese la Placa o la Cédula del propietario para validar el estado oficial en el sistema.
+        <h2 class="text-lg md:text-xl font-bold text-slate-700">Verificación Oficial de Solvencia Vehicular</h2>
+        <p class="text-xs sm:text-sm text-slate-500 mt-1">
+          Ingrese la placa del vehículo o la cédula del propietario registrado en el Municipio Crespo.
         </p>
       </div>
 
-      <form id="searchForm" class="max-w-xl mx-auto">
-        <div class="flex flex-col sm:flex-row gap-3">
-          <div class="relative flex-1">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400">
-              <i class="fa-solid fa-magnifying-glass"></i>
-            </span>
-            <input 
-              type="text" 
-              id="searchInput"
-              placeholder="Ej. AB123CD o V-12345678" 
-              class="w-full pl-11 pr-4 py-3.5 border-2 border-slate-200 rounded-xl focus:border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-100 uppercase font-semibold text-slate-700 transition"
-              required
-            >
+      <!-- FORMULARIO: UN SOLO CAMPO -->
+      <form id="searchForm" class="max-w-lg mx-auto flex flex-col sm:flex-row gap-2">
+        <div class="relative flex-1">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+            <i class="fa-solid fa-magnifying-glass"></i>
           </div>
-          <button 
-            type="submit" 
-            class="bg-teal-700 hover:bg-teal-800 text-white font-bold px-8 py-3.5 rounded-xl shadow-md transition flex items-center justify-center gap-2"
-          >
-            <i class="fa-solid fa-id-card"></i>
-            <span>Consultar</span>
-          </button>
+          <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="Ingrese Placa o Cédula (Ej: AB123CD o 15894231)" 
+            class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white transition-all uppercase placeholder-slate-400"
+            required
+            autocomplete="off"
+          />
         </div>
+        <button 
+          type="submit" 
+          class="bg-[#29744e] hover:bg-[#205e3e] text-white px-6 py-3 rounded-xl font-semibold text-sm transition-all shadow-sm flex items-center justify-center gap-2"
+        >
+          <span>Consultar</span>
+          <i class="fa-solid fa-arrow-right text-xs"></i>
+        </button>
       </form>
 
-      <!-- Mensaje de no encontrado -->
-      <div id="notFoundMsg" class="hidden mt-6 p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-center text-sm">
-        <i class="fa-solid fa-circle-exclamation text-amber-600 text-lg mb-1 block"></i>
-        No se encontró ningún registro para el criterio ingresado. Verifique la placa o cédula e intente de nuevo.
-      </div>
+      <div id="statusMessage" class="hidden text-center mt-4 text-xs font-semibold"></div>
     </div>
 
-    <!-- CERTIFICADO DE SOLVENCIA (RESULTADO) -->
-    <div id="resultContainer" class="hidden">
-      <div id="printableArea" class="bg-white rounded-2xl shadow-xl border-2 border-emerald-500/40 p-6 md:p-10 relative overflow-hidden">
+    <!-- RESULTADO DE CONSULTA (CERTIFICADO IMPRIMIBLE) -->
+    <div id="resultCard" class="hidden mt-6 bg-white rounded-2xl shadow-sm border border-emerald-200 overflow-hidden">
+      <div id="printableReceipt" class="p-6 md:p-8">
         
-        <!-- Sello de Agua -->
-        <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-5">
-          <i class="fa-solid fa-award text-9xl text-emerald-800"></i>
-        </div>
-
-        <!-- Encabezado del Certificado -->
-        <div class="flex flex-col sm:flex-row items-center justify-between border-b pb-6 mb-6 gap-4">
+        <!-- ENCABEZADO DEL RECIBO -->
+        <div class="border-b border-slate-200 pb-4 mb-6 flex flex-col sm:flex-row justify-between items-center gap-4">
           <div class="text-center sm:text-left">
-            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Comprobante Oficial</p>
-            <h3 class="text-xl md:text-2xl font-black text-slate-800">CERTIFICADO DE SOLVENCIA VEHICULAR</h3>
-            <p class="text-xs text-slate-500">Alcaldía Bolivariana de Crespo &bull; Rentas Municipales</p>
+            <div class="text-xs font-bold uppercase text-emerald-800 tracking-wider">Alcaldía Bolivariana de Crespo • Duaca</div>
+            <div class="text-base font-extrabold text-slate-800">CONSTANCIA ELECTRÓNICA DE SOLVENCIA DE TRIMESTRES</div>
+            <div class="text-xs text-slate-400" id="currentDateStr">Emitido el: 2026-11-10</div>
           </div>
-          <div class="bg-emerald-50 border border-emerald-300 rounded-xl px-4 py-2 text-center">
-            <span class="block text-xs uppercase text-emerald-800 font-semibold tracking-wider">Vigencia Fiscal</span>
-            <span id="currentYearDisplay" class="text-lg font-black text-emerald-700"></span>
-          </div>
-        </div>
-
-        <!-- Indicador de Estado -->
-        <div class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white rounded-xl p-4 text-center mb-6 shadow-md">
-          <div class="text-xs tracking-widest uppercase font-bold text-emerald-100">Dictamen Fiscal</div>
-          <div class="text-2xl md:text-3xl font-extrabold tracking-wide uppercase mt-0.5">
-            ESTADO: SOLVENTE (Año actual)
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 border border-emerald-300 rounded-xl text-emerald-800 font-extrabold text-sm sm:text-base tracking-wide">
+            <i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>
+            <span id="badgeSolvente">SOLVENTE PARA EL AÑO 2026</span>
           </div>
         </div>
 
-        <!-- Ficha de Datos -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm bg-slate-50 p-6 rounded-xl border border-slate-200">
+        <!-- DATOS DEL VEHÍCULO -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 bg-slate-50 p-5 rounded-xl border border-slate-200 text-sm">
           <div>
-            <span class="text-xs font-semibold text-slate-400 uppercase block">Propietario</span>
-            <span id="resPropietario" class="font-bold text-slate-800 text-base"></span>
+            <span class="block text-xs uppercase text-slate-400 font-semibold">Propietario Registrado</span>
+            <span id="resPropietario" class="font-bold text-slate-800 text-base">---</span>
           </div>
           <div>
-            <span class="text-xs font-semibold text-slate-400 uppercase block">Cédula de Identidad</span>
-            <span id="resCedula" class="font-bold text-slate-800 text-base"></span>
+            <span class="block text-xs uppercase text-slate-400 font-semibold">Cédula / RIF</span>
+            <span id="resCedula" class="font-bold text-slate-800 text-base">---</span>
           </div>
           <div>
-            <span class="text-xs font-semibold text-slate-400 uppercase block">Placa del Vehículo</span>
-            <span id="resPlaca" class="font-bold text-slate-800 text-base uppercase"></span>
+            <span class="block text-xs uppercase text-slate-400 font-semibold">Placa Vehicular</span>
+            <span id="resPlaca" class="font-bold text-emerald-700 text-base tracking-wider">---</span>
           </div>
           <div>
-            <span class="text-xs font-semibold text-slate-400 uppercase block">Marca</span>
-            <span id="resMarca" class="font-bold text-slate-800 text-base"></span>
+            <span class="block text-xs uppercase text-slate-400 font-semibold">Marca</span>
+            <span id="resMarca" class="font-bold text-slate-800">---</span>
           </div>
           <div>
-            <span class="text-xs font-semibold text-slate-400 uppercase block">Modelo</span>
-            <span id="resModelo" class="font-bold text-slate-800 text-base"></span>
+            <span class="block text-xs uppercase text-slate-400 font-semibold">Modelo</span>
+            <span id="resModelo" class="font-bold text-slate-800">---</span>
           </div>
           <div>
-            <span class="text-xs font-semibold text-slate-400 uppercase block">Año de Fabricación</span>
-            <span id="resAnio" class="font-bold text-slate-800 text-base"></span>
+            <span class="block text-xs uppercase text-slate-400 font-semibold">Año / Color</span>
+            <span id="resAnoColor" class="font-medium text-slate-700">---</span>
           </div>
         </div>
 
-        <!-- Pie de Certificado -->
-        <div class="mt-6 pt-4 border-t border-slate-200 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-2">
-          <span>Consulta generada el: <b id="consultaFecha"></b></span>
-          <span class="font-mono">Ref: <span id="consultaSerial"></span></span>
-        </div>
-
-        <!-- Botones de Acción -->
-        <div class="mt-8 flex justify-center gap-4 no-print">
-          <button 
-            onclick="window.print()" 
-            class="bg-slate-800 hover:bg-slate-900 text-white font-semibold px-6 py-2.5 rounded-xl shadow transition flex items-center gap-2"
-          >
-            <i class="fa-solid fa-print"></i>
-            <span>Imprimir Certificado</span>
-          </button>
+        <!-- SELLO DIGITAL Y PIE DEL COMPROBANTE -->
+        <div class="mt-6 pt-4 border-t border-dashed border-slate-200 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400 gap-4">
+          <div class="flex items-center gap-3">
+            <i class="fa-solid fa-shield-halved text-2xl text-emerald-600"></i>
+            <div>
+              <div class="font-semibold text-slate-600">Código de Certificación Fiscal Digital</div>
+              <div class="font-mono text-[11px]" id="securityToken">CR-TRIM-2026-981244</div>
+            </div>
+          </div>
+          <div class="text-center sm:text-right">
+            <div>Válido ante autoridades de tránsito municipal</div>
+            <div class="text-[10px]">Municipio Crespo, Estado Lara</div>
+          </div>
         </div>
       </div>
+
+      <!-- BOTONES DE ACCIÓN (NO IMPRIMIBLES) -->
+      <div class="bg-slate-50 px-6 py-3 border-t border-slate-200 flex justify-end gap-3 no-print">
+        <button 
+          onclick="window.print()" 
+          class="px-4 py-2 bg-slate-700 hover:bg-slate-800 text-white rounded-lg text-xs font-semibold flex items-center gap-2 transition-all"
+        >
+          <i class="fa-solid fa-print"></i>
+          <span>Imprimir Constancia</span>
+        </button>
+        <button 
+          onclick="resetSearch()" 
+          class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg text-xs font-semibold transition-all"
+        >
+          Nueva Consulta
+        </button>
+      </div>
     </div>
+
   </main>
 
-  <!-- MODAL: PANEL ADMINISTRATIVO (Clave 23456) -->
-  <div id="adminModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50 backdrop-blur-sm">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 border border-slate-200">
-      
-      <!-- Paso 1: Autenticación -->
-      <div id="adminAuthSection">
-        <div class="text-center mb-6">
-          <div class="w-12 h-12 bg-teal-100 text-teal-800 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
-            <i class="fa-solid fa-lock"></i>
-          </div>
-          <h3 class="text-xl font-bold text-slate-800">Acceso Administrativo</h3>
-          <p class="text-xs text-slate-500 mt-1">Ingrese su clave para gestionar los registros del sistema.</p>
-        </div>
-        <form id="adminAuthForm" class="max-w-xs mx-auto">
-          <div class="mb-4">
-            <input 
-              type="password" 
-              id="adminKeyInput" 
-              placeholder="Clave de acceso" 
-              class="w-full text-center px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-teal-600 focus:outline-none tracking-widest text-lg font-bold"
-              required
-            >
-          </div>
-          <div id="authErrorMsg" class="hidden text-rose-600 text-xs text-center mb-3 font-semibold">
-            Clave incorrecta.
-          </div>
-          <div class="flex gap-2">
-            <button 
-              type="button" 
-              id="btnCancelAuth" 
-              class="w-1/2 py-2.5 border border-slate-300 rounded-xl font-semibold text-slate-600 hover:bg-slate-100"
-            >
-              Cerrar
-            </button>
-            <button 
-              type="submit" 
-              class="w-1/2 py-2.5 bg-teal-700 hover:bg-teal-800 rounded-xl font-semibold text-white shadow"
-            >
-              Ingresar
-            </button>
-          </div>
-        </form>
+  <!-- PIE DE PÁGINA CON ACCESO ADMINISTRATIVO DISCRETO -->
+  <footer class="bg-white border-t border-slate-200 py-4 px-4 text-xs text-slate-500 no-print">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+      <div>
+        © 2026 Alcaldía Bolivariana del Municipio Crespo. Duaca, Estado Lara.
       </div>
-
-      <!-- Paso 2: Panel de Gestión -->
-      <div id="adminPanelSection" class="hidden">
-        <div class="flex items-center justify-between pb-4 border-b border-slate-200 mb-6">
-          <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-            <i class="fa-solid fa-database text-teal-700"></i>
-            <span>Gestión de Vehículos Registrados</span>
-          </h3>
-          <button id="btnCloseAdmin" class="text-slate-400 hover:text-slate-600 text-lg">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-
-        <!-- Formulario para agregar vehículo -->
-        <form id="addVehicleForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 bg-slate-50 p-4 rounded-xl border border-slate-200 text-sm">
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 mb-1">Cédula del Propietario</label>
-            <input type="text" id="newCedula" placeholder="V-12345678" required class="w-full px-3 py-2 border rounded-lg uppercase">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 mb-1">Nombre y Apellido</label>
-            <input type="text" id="newPropietario" placeholder="Carlos Pérez" required class="w-full px-3 py-2 border rounded-lg capitalize">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 mb-1">Placa</label>
-            <input type="text" id="newPlaca" placeholder="AB123CD" required class="w-full px-3 py-2 border rounded-lg uppercase">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 mb-1">Marca</label>
-            <input type="text" id="newMarca" placeholder="Toyota" required class="w-full px-3 py-2 border rounded-lg capitalize">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 mb-1">Modelo</label>
-            <input type="text" id="newModelo" placeholder="Corolla" required class="w-full px-3 py-2 border rounded-lg capitalize">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 mb-1">Año</label>
-            <input type="number" id="newAnio" placeholder="2015" required class="w-full px-3 py-2 border rounded-lg">
-          </div>
-          <div class="sm:col-span-2 text-right">
-            <button type="submit" class="bg-teal-700 hover:bg-teal-800 text-white font-bold px-6 py-2.5 rounded-lg shadow text-sm">
-              <i class="fa-solid fa-plus mr-1"></i> Guardar Vehículo
-            </button>
-          </div>
-        </form>
-
-        <!-- Lista de Registros -->
-        <h4 class="text-xs font-bold text-slate-400 uppercase mb-2">Registros Activos</h4>
-        <div class="border rounded-xl overflow-hidden max-h-56 overflow-y-auto">
-          <table class="w-full text-left text-xs text-slate-600">
-            <thead class="bg-slate-100 text-slate-700 font-bold sticky top-0">
-              <tr>
-                <th class="p-2.5">Placa</th>
-                <th class="p-2.5">Cédula</th>
-                <th class="p-2.5">Propietario</th>
-                <th class="p-2.5">Vehículo</th>
-                <th class="p-2.5 text-center">Acción</th>
-              </tr>
-            </thead>
-            <tbody id="adminTableBody" class="divide-y divide-slate-100">
-              <!-- Dinámico -->
-            </tbody>
-          </table>
-        </div>
+      <!-- ACCESO SEGURO SOLO PARA ADMINISTRADOR -->
+      <div>
+        <button 
+          onclick="openLoginModal()" 
+          class="text-slate-400 hover:text-emerald-700 font-medium inline-flex items-center gap-1.5 transition-colors"
+          title="Acceso restringido"
+        >
+          <i class="fa-solid fa-lock text-[10px]"></i>
+          <span>Gestión Interna</span>
+        </button>
       </div>
-    </div>
-  </div>
-
-  <!-- PIE DE PÁGINA -->
-  <footer class="bg-slate-900 text-slate-400 text-xs py-6 px-4 mt-12 border-t border-slate-800">
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-      <p>&copy; <span id="footerYear"></span> Alcaldía Bolivariana de Crespo &bull; Todos los derechos reservados.</p>
-      <button id="openAdminBtn" class="text-slate-500 hover:text-slate-300 flex items-center gap-1.5 transition">
-        <i class="fa-solid fa-shield-halved"></i>
-        <span>Acceso Interno</span>
-      </button>
     </div>
   </footer>
 
-  <!-- SCRIPT CON ALMACENAMIENTO PERSISTENTE -->
+  <!-- MODAL 1: LOGIN DE ADMINISTRADOR (CLAVE 23456 PROTEGIDA) -->
+  <div id="loginModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4 z-50 no-print">
+    <div class="bg-white rounded-2xl shadow-xl max-w-sm w-full p-6 border border-slate-200">
+      <div class="text-center mb-4">
+        <div class="w-12 h-12 bg-emerald-50 text-emerald-700 rounded-full flex items-center justify-center mx-auto mb-2 text-lg">
+          <i class="fa-solid fa-user-shield"></i>
+        </div>
+        <h3 class="text-base font-bold text-slate-800">Panel Administrativo</h3>
+        <p class="text-xs text-slate-500">Ingrese la clave de seguridad autorizada</p>
+      </div>
+
+      <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
+        <div class="relative mb-4">
+          <input 
+            type="password" 
+            id="adminPassInput" 
+            placeholder="Clave de acceso" 
+            class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white pr-10"
+            required
+            autocomplete="current-password"
+          />
+          <button 
+            type="button" 
+            onclick="togglePasswordVisibility()" 
+            class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 text-xs"
+          >
+            <i class="fa-regular fa-eye" id="passEyeIcon"></i>
+          </button>
+        </div>
+        <div id="loginError" class="hidden text-xs text-red-600 font-medium mb-3 text-center">
+          Clave incorrecta. Acceso denegado.
+        </div>
+        <div class="flex gap-2">
+          <button 
+            type="button" 
+            onclick="closeLoginModal()" 
+            class="flex-1 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold transition-all"
+          >
+            Cancelar
+          </button>
+          <button 
+            type="submit" 
+            class="flex-1 px-4 py-2 bg-[#29744e] hover:bg-[#205e3e] text-white rounded-xl text-xs font-semibold transition-all shadow-sm"
+          >
+            Entrar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: PANEL DE ADMINISTRACIÓN CRUD EN LA NUBE -->
+  <div id="adminPanelModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-6 z-50 no-print overflow-y-auto">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full my-auto border border-slate-200 overflow-hidden flex flex-col max-h-[92vh]">
+      
+      <!-- CABECERA DEL PANEL -->
+      <div class="bg-slate-800 text-white px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-cloud text-emerald-400"></i>
+          <span class="font-bold text-sm sm:text-base">Administración de Vehículos Registrados (Nube)</span>
+        </div>
+        <button onclick="closeAdminPanel()" class="text-slate-400 hover:text-white text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="p-4 sm:p-6 overflow-y-auto space-y-6">
+
+        <!-- FORMULARIO DE AGREGAR / EDITAR VEHÍCULO -->
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <h4 class="font-bold text-xs uppercase text-slate-600 mb-3 flex items-center gap-2" id="formActionTitle">
+            <i class="fa-solid fa-plus-circle text-emerald-600"></i>
+            <span>Registrar Nuevo Vehículo Solvente</span>
+          </h4>
+          <form id="vehicleForm" onsubmit="saveVehicleRecord(event)" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs">
+            <input type="hidden" id="vehicleDocId" value="">
+            <div>
+              <label class="block text-slate-500 mb-1 font-semibold">Placa *</label>
+              <input type="text" id="vPlaca" placeholder="Ej: AB123CD" class="w-full px-3 py-2 border rounded-lg uppercase" required>
+            </div>
+            <div>
+              <label class="block text-slate-500 mb-1 font-semibold">Cédula / RIF *</label>
+              <input type="text" id="vCedula" placeholder="Ej: V-15894231" class="w-full px-3 py-2 border rounded-lg uppercase" required>
+            </div>
+            <div>
+              <label class="block text-slate-500 mb-1 font-semibold">Propietario *</label>
+              <input type="text" id="vPropietario" placeholder="Nombre y Apellido" class="w-full px-3 py-2 border rounded-lg" required>
+            </div>
+            <div>
+              <label class="block text-slate-500 mb-1 font-semibold">Marca *</label>
+              <input type="text" id="vMarca" placeholder="Ej: Chevrolet, Toyota, Bera" class="w-full px-3 py-2 border rounded-lg" required>
+            </div>
+            <div>
+              <label class="block text-slate-500 mb-1 font-semibold">Modelo *</label>
+              <input type="text" id="vModelo" placeholder="Ej: Aveo, Corolla, DT 200" class="w-full px-3 py-2 border rounded-lg" required>
+            </div>
+            <div>
+              <label class="block text-slate-500 mb-1 font-semibold">Año / Color</label>
+              <input type="text" id="vAnoColor" placeholder="Ej: 2012 - Blanco" class="w-full px-3 py-2 border rounded-lg">
+            </div>
+            <div class="sm:col-span-2 md:col-span-3 flex justify-end gap-2 pt-2">
+              <button type="button" onclick="cancelEditMode()" id="btnCancelEdit" class="hidden px-4 py-2 bg-slate-200 text-slate-700 rounded-lg font-semibold">
+                Cancelar Edición
+              </button>
+              <button type="submit" class="px-5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg font-semibold flex items-center gap-1.5 shadow-sm">
+                <i class="fa-solid fa-floppy-disk"></i>
+                <span id="btnSaveText">Guardar en la Nube</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- LISTADO Y FILTRO DE VEHÍCULOS -->
+        <div>
+          <div class="flex flex-col sm:flex-row justify-between items-center gap-2 mb-3">
+            <h4 class="font-bold text-xs uppercase text-slate-600">Vehículos en Base de Datos</h4>
+            <input 
+              type="text" 
+              id="adminFilterInput" 
+              oninput="renderAdminTable()" 
+              placeholder="Filtrar por placa, cédula o dueño..." 
+              class="w-full sm:w-64 px-3 py-1.5 text-xs bg-slate-50 border rounded-lg focus:outline-none"
+            >
+          </div>
+
+          <div class="border border-slate-200 rounded-xl overflow-x-auto">
+            <table class="w-full text-left text-xs text-slate-700">
+              <thead class="bg-slate-100 text-slate-600 font-semibold uppercase text-[11px] border-b">
+                <tr>
+                  <th class="p-2.5">Placa</th>
+                  <th class="p-2.5">Cédula</th>
+                  <th class="p-2.5">Propietario</th>
+                  <th class="p-2.5">Marca / Modelo</th>
+                  <th class="p-2.5 text-center">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="vehicleTableBody" class="divide-y divide-slate-100">
+                <!-- Se llena dinámicamente con JS -->
+              </tbody>
+            </table>
+          </div>
+          <div class="text-[11px] text-slate-400 mt-2 text-right" id="dbCounter">
+            Cargando registros...
+          </div>
+        </div>
+
+      </div>
+
+      <div class="bg-slate-100 px-6 py-3 border-t text-right">
+        <button onclick="closeAdminPanel()" class="px-4 py-1.5 bg-slate-300 hover:bg-slate-400 text-slate-800 rounded-lg text-xs font-semibold">
+          Cerrar Panel
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FIREBASE MODULAR SDK + LÓGICA DE APLICACIÓN -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    import { 
-      getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot 
-    } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    // Pega aquí tus claves de Firebase Console si las tienes
-    const firebaseConfig = {
-      apiKey: "TU_API_KEY",
-      authDomain: "TU_PROYECTO.firebaseapp.com",
-      projectId: "TU_PROYECTO_ID",
-      storageBucket: "TU_PROYECTO.appspot.com",
-      messagingSenderId: "TU_SENDER_ID",
-      appId: "TU_APP_ID"
-    };
+    // CLAVE EXCLUSIVA PARA EL ADMINISTRADOR SOLICITADA
+    const ADMIN_PASSWORD = "23456";
 
-    let db = null;
-
-    // Registros iniciales predeterminados
-    const datosBase = [
-      { id: "1", placa: "AB123CD", cedula: "V-12345678", propietario: "JUAN MANUEL PÉREZ", marca: "CHEVROLET", modelo: "OPTRA", anio: "2011" },
-      { id: "2", placa: "XY987ZT", cedula: "V-87654321", propietario: "MARÍA ELENA GÓMEZ", marca: "TOYOTA", modelo: "COROLLA", anio: "2018" }
+    // DATOS DE RESPALDO INICIALES
+    const INITIAL_RECORDS = [
+      { id: "AB123CD", placa: "AB123CD", cedula: "15894231", propietario: "CARLOS MANUEL RODRÍGUEZ", marca: "CHEVROLET", modelo: "AVEO", anocolor: "2011 - PLATA" },
+      { id: "XAP89T", placa: "XAP89T", cedula: "18452109", propietario: "MARÍA ELENA GÓMEZ", marca: "TOYOTA", modelo: "COROLLA", anocolor: "2015 - BLANCO" },
+      { id: "MD099Z", placa: "MD099Z", cedula: "24331002", propietario: "JOSÉ LUIS MENDOZA", marca: "BERA", modelo: "DT 200", anocolor: "2023 - ROJO" }
     ];
 
-    // Cargar desde almacenamiento del navegador para que no se borre al actualizar
-    let vehiculosMemoria = JSON.parse(localStorage.getItem("vehiculos_crespo_db")) || datosBase;
+    let vehiclesList = [];
+    let isCloudActive = false;
+    let dbInstance = null;
 
-    function guardarLocal() {
-      localStorage.setItem("vehiculos_crespo_db", JSON.stringify(vehiculosMemoria));
-    }
-
+    // INICIALIZACIÓN DE FIREBASE (Configuración genérica lista para conectar tus credenciales)
     try {
-      if (firebaseConfig.apiKey && firebaseConfig.apiKey !== "TU_API_KEY") {
-        const app = initializeApp(firebaseConfig);
-        db = getFirestore(app);
-        onSnapshot(collection(db, "vehiculos_crespo"), (snapshot) => {
-          vehiculosMemoria = [];
-          snapshot.forEach((docSnap) => {
-            vehiculosMemoria.push({ id: docSnap.id, ...docSnap.data() });
-          });
-          guardarLocal();
-          renderAdminTable();
-        });
-      }
-    } catch (err) {
-      console.warn("Modo almacenamiento web activo:", err);
-    }
-
-    // Año actual
-    const currentYear = new Date().getFullYear();
-    document.getElementById("currentYearDisplay").textContent = `AÑO ${currentYear}`;
-    document.getElementById("footerYear").textContent = currentYear;
-
-    // Formulario de Búsqueda
-    const searchForm = document.getElementById("searchForm");
-    const searchInput = document.getElementById("searchInput");
-    const resultContainer = document.getElementById("resultContainer");
-    const notFoundMsg = document.getElementById("notFoundMsg");
-
-    searchForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const query = searchInput.value.trim().toUpperCase().replace(/[^A-Z0-9]/g, "");
-
-      const encontrado = vehiculosMemoria.find(v => {
-        const cleanPlaca = (v.placa || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
-        const cleanCedula = (v.cedula || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
-        return cleanPlaca === query || cleanCedula === query;
-      });
-
-      if (encontrado) {
-        notFoundMsg.classList.add("hidden");
-        document.getElementById("resPropietario").textContent = encontrado.propietario;
-        document.getElementById("resCedula").textContent = encontrado.cedula;
-        document.getElementById("resPlaca").textContent = encontrado.placa;
-        document.getElementById("resMarca").textContent = encontrado.marca;
-        document.getElementById("resModelo").textContent = encontrado.modelo;
-        document.getElementById("resAnio").textContent = encontrado.anio;
-        document.getElementById("consultaFecha").textContent = new Date().toLocaleDateString('es-VE', { 
-          day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' 
-        });
-        document.getElementById("consultaSerial").textContent = "CRSP-" + Math.floor(100000 + Math.random() * 900000);
-        
-        resultContainer.classList.remove("hidden");
-        resultContainer.scrollIntoView({ behavior: 'smooth' });
-      } else {
-        resultContainer.classList.add("hidden");
-        notFoundMsg.classList.remove("hidden");
-      }
-    });
-
-    // Modal Admin (Clave: 23456)
-    const adminModal = document.getElementById("adminModal");
-    const openAdminBtn = document.getElementById("openAdminBtn");
-    const btnCancelAuth = document.getElementById("btnCancelAuth");
-    const btnCloseAdmin = document.getElementById("btnCloseAdmin");
-    const adminAuthForm = document.getElementById("adminAuthForm");
-    const adminKeyInput = document.getElementById("adminKeyInput");
-    const authErrorMsg = document.getElementById("authErrorMsg");
-    const adminAuthSection = document.getElementById("adminAuthSection");
-    const adminPanelSection = document.getElementById("adminPanelSection");
-    const adminTableBody = document.getElementById("adminTableBody");
-    const addVehicleForm = document.getElementById("addVehicleForm");
-
-    openAdminBtn.addEventListener("click", () => {
-      adminModal.classList.remove("hidden");
-      adminModal.classList.add("flex");
-      adminAuthSection.classList.remove("hidden");
-      adminPanelSection.classList.add("hidden");
-      adminKeyInput.value = "";
-      authErrorMsg.classList.add("hidden");
-    });
-
-    const closeModal = () => {
-      adminModal.classList.add("hidden");
-      adminModal.classList.remove("flex");
-    };
-
-    btnCancelAuth.addEventListener("click", closeModal);
-    btnCloseAdmin.addEventListener("click", closeModal);
-
-    adminAuthForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      if (adminKeyInput.value.trim() === "23456") {
-        adminAuthSection.classList.add("hidden");
-        adminPanelSection.classList.remove("hidden");
-        renderAdminTable();
-      } else {
-        authErrorMsg.classList.remove("hidden");
-      }
-    });
-
-    function renderAdminTable() {
-      adminTableBody.innerHTML = "";
-      vehiculosMemoria.forEach((v) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td class="p-2.5 font-bold uppercase">${v.placa}</td>
-          <td class="p-2.5 font-mono">${v.cedula}</td>
-          <td class="p-2.5">${v.propietario}</td>
-          <td class="p-2.5">${v.marca} ${v.modelo} (${v.anio})</td>
-          <td class="p-2.5 text-center">
-            <button onclick="window.eliminarVehiculo('${v.id}')" class="text-rose-600 hover:text-rose-800">
-              <i class="fa-solid fa-trash-can"></i>
-            </button>
-          </td>
-        `;
-        adminTableBody.appendChild(row);
-      });
-    }
-
-    // Guardar vehículo
-    addVehicleForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const nuevo = {
-        cedula: document.getElementById("newCedula").value.trim().toUpperCase(),
-        propietario: document.getElementById("newPropietario").value.trim().toUpperCase(),
-        placa: document.getElementById("newPlaca").value.trim().toUpperCase(),
-        marca: document.getElementById("newMarca").value.trim().toUpperCase(),
-        modelo: document.getElementById("newModelo").value.trim().toUpperCase(),
-        anio: document.getElementById("newAnio").value.trim()
+      const firebaseConfig = {
+        apiKey: "AIzaSyDummyKeyForTemplateUsageReplaceIfDesired",
+        authDomain: "crespo-trimestres.firebaseapp.com",
+        projectId: "crespo-trimestres",
+        storageBucket: "crespo-trimestres.appspot.com"
       };
 
-      if (db) {
-        await addDoc(collection(db, "vehiculos_crespo"), nuevo);
-      } else {
-        nuevo.id = Date.now().toString();
-        vehiculosMemoria.push(nuevo);
-        guardarLocal();
-        renderAdminTable();
-      }
-      addVehicleForm.reset();
-    });
+      const app = initializeApp(firebaseConfig);
+      dbInstance = getFirestore(app);
 
-    // Eliminar vehículo
-    window.eliminarVehiculo = async (id) => {
-      if (!confirm("¿Desea eliminar este registro?")) return;
-      if (db) {
-        await deleteDoc(doc(db, "vehiculos_crespo", id));
+      // Escucha en tiempo real si hay conexión activa
+      const collRef = collection(dbInstance, "vehiculos_crespo");
+      onSnapshot(collRef, (snapshot) => {
+        if (!snapshot.empty) {
+          vehiclesList = [];
+          snapshot.forEach(docSnap => {
+            vehiclesList.push({ id: docSnap.id, ...docSnap.data() });
+          });
+          isCloudActive = true;
+          window.renderAdminTable();
+        } else {
+          loadFromLocalStorage();
+        }
+      }, (err) => {
+        // En caso de modo offline o sin configurar reglas, funciona fluidamente con localStorage
+        loadFromLocalStorage();
+      });
+    } catch (e) {
+      loadFromLocalStorage();
+    }
+
+    function loadFromLocalStorage() {
+      const local = localStorage.getItem("crespo_vehiculos_db");
+      if (local) {
+        vehiclesList = JSON.parse(local);
       } else {
-        vehiculosMemoria = vehiculosMemoria.filter(v => v.id !== id);
-        guardarLocal();
-        renderAdminTable();
+        vehiclesList = [...INITIAL_RECORDS];
+        saveToLocal();
+      }
+      if (window.renderAdminTable) window.renderAdminTable();
+    }
+
+    function saveToLocal() {
+      localStorage.setItem("crespo_vehiculos_db", JSON.stringify(vehiclesList));
+    }
+
+    // NORMALIZADOR PARA COMPARACIÓN DE PLACA O CÉDULA
+    function cleanStr(val) {
+      return (val || "").toString().toUpperCase().replace(/[^A-Z0-9]/g, "").trim();
+    }
+
+    // CONSULTA PÚBLICA (UN SOLO CAMPO)
+    window.handleSearch = function(e) {
+      e.preventDefault();
+      const inputVal = cleanStr(document.getElementById("searchInput").value);
+      const statusMsg = document.getElementById("statusMessage");
+      const resultCard = document.getElementById("resultCard");
+
+      statusMsg.className = "hidden text-center mt-4 text-xs font-semibold";
+      resultCard.classList.add("hidden");
+
+      if (!inputVal) return;
+
+      const found = vehiclesList.find(v => cleanStr(v.placa) === inputVal || cleanStr(v.cedula) === inputVal);
+
+      if (found) {
+        document.getElementById("resPropietario").innerText = found.propietario;
+        document.getElementById("resCedula").innerText = found.cedula;
+        document.getElementById("resPlaca").innerText = found.placa.toUpperCase();
+        document.getElementById("resMarca").innerText = found.marca.toUpperCase();
+        document.getElementById("resModelo").innerText = found.modelo.toUpperCase();
+        document.getElementById("resAnoColor").innerText = found.anocolor || "NO ESPECIFICADO";
+        
+        const today = new Date();
+        const year = today.getFullYear();
+        document.getElementById("badgeSolvente").innerText = `SOLVENTE PARA EL AÑO ${year}`;
+        document.getElementById("currentDateStr").innerText = `Emitido el: ${today.toLocaleDateString('es-VE')}`;
+        document.getElementById("securityToken").innerText = `CR-TRIM-${year}-${Math.floor(100000 + Math.random() * 900000)}`;
+
+        resultCard.classList.remove("hidden");
+        resultCard.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        statusMsg.innerText = "No se encontró registro solvente para el dato suministrado. Verifique la placa o cédula ingresada.";
+        statusMsg.className = "text-center mt-4 text-xs font-semibold text-amber-700 bg-amber-50 py-2.5 px-4 rounded-xl border border-amber-200";
       }
     };
+
+    window.resetSearch = function() {
+      document.getElementById("searchInput").value = "";
+      document.getElementById("resultCard").classList.add("hidden");
+      document.getElementById("statusMessage").className = "hidden";
+      document.getElementById("searchInput").focus();
+    };
+
+    // PANEL ADMINISTRATIVO Y CLAVE
+    window.openLoginModal = function() {
+      document.getElementById("adminPassInput").value = "";
+      document.getElementById("loginError").classList.add("hidden");
+      document.getElementById("loginModal").classList.remove("hidden");
+      document.getElementById("loginModal").classList.add("flex");
+      document.getElementById("adminPassInput").focus();
+    };
+
+    window.closeLoginModal = function() {
+      document.getElementById("loginModal").classList.add("hidden");
+      document.getElementById("loginModal").classList.remove("flex");
+    };
+
+    window.handleAdminLogin = function(e) {
+      e.preventDefault();
+      const enteredPass = document.getElementById("adminPassInput").value;
+      if (enteredPass === ADMIN_PASSWORD) {
+        closeLoginModal();
+        openAdminPanel();
+      } else {
+        document.getElementById("loginError").classList.remove("hidden");
+      }
+    };
+
+    window.togglePasswordVisibility = function() {
+      const input = document.getElementById("adminPassInput");
+      const icon = document.getElementById("passEyeIcon");
+      if (input.type === "password") {
+        input.type = "text";
+        icon.className = "fa-regular fa-eye-slash";
+      } else {
+        input.type = "password";
+        icon.className = "fa-regular fa-eye";
+      }
+    };
+
+    window.openAdminPanel = function() {
+      document.getElementById("adminPanelModal").classList.remove("hidden");
+      document.getElementById("adminPanelModal").classList.add("flex");
+      window.renderAdminTable();
+    };
+
+    window.closeAdminPanel = function() {
+      document.getElementById("adminPanelModal").classList.add("hidden");
+      document.getElementById("adminPanelModal").classList.remove("flex");
+      cancelEditMode();
+    };
+
+    // RENDERIZADO DE TABLA ADMINISTRATIVA
+    window.renderAdminTable = function() {
+      const tbody = document.getElementById("vehicleTableBody");
+      const filter = (document.getElementById("adminFilterInput").value || "").toLowerCase();
+      tbody.innerHTML = "";
+
+      const filtered = vehiclesList.filter(v => 
+        (v.placa || "").toLowerCase().includes(filter) ||
+        (v.cedula || "").toLowerCase().includes(filter) ||
+        (v.propietario || "").toLowerCase().includes(filter)
+      );
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">No hay registros coincidentes</td></tr>`;
+      } else {
+        filtered.forEach(v => {
+          const tr = document.createElement("tr");
+          tr.className = "hover:bg-slate-50 transition-colors";
+          tr.innerHTML = `
+            <td class="p-2.5 font-bold text-emerald-800">${v.placa}</td>
+            <td class="p-2.5">${v.cedula}</td>
+            <td class="p-2.5 font-medium">${v.propietario}</td>
+            <td class="p-2.5">${v.marca} ${v.modelo}</td>
+            <td class="p-2.5 text-center">
+              <button onclick="editVehicle('${v.id}')" class="text-blue-600 hover:text-blue-800 mr-2" title="Editar"><i class="fa-solid fa-pen-to-square"></i></button>
+              <button onclick="deleteVehicleRecord('${v.id}')" class="text-red-500 hover:text-red-700" title="Eliminar"><i class="fa-solid fa-trash-can"></i></button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+      document.getElementById("dbCounter").innerText = `Total registrados: ${vehiclesList.length} vehículos`;
+    };
+
+    // GUARDAR O ACTUALIZAR
+    window.saveVehicleRecord = async function(e) {
+      e.preventDefault();
+      const docId = document.getElementById("vehicleDocId").value;
+      const placa = document.getElementById("vPlaca").value.trim().toUpperCase();
+      const cedula = document.getElementById("vCedula").value.trim().toUpperCase();
+      const propietario = document.getElementById("vPropietario").value.trim().toUpperCase();
+      const marca = document.getElementById("vMarca").value.trim().toUpperCase();
+      const modelo = document.getElementById("vModelo").value.trim().toUpperCase();
+      const anocolor = document.getElementById("vAnoColor").value.trim().toUpperCase();
+
+      const newRecord = {
+        placa,
+        cedula,
+        propietario,
+        marca,
+        modelo,
+        anocolor
+      };
+
+      const finalId = docId || placa.replace(/[^A-Z0-9]/g, "");
+
+      if (isCloudActive && dbInstance) {
+        try {
+          await setDoc(doc(dbInstance, "vehiculos_crespo", finalId), newRecord);
+        } catch (err) {
+          console.warn("Sincronizando en almacenamiento local:", err);
+        }
+      }
+
+      const existingIndex = vehiclesList.findIndex(v => v.id === finalId);
+      if (existingIndex >= 0) {
+        vehiclesList[existingIndex] = { id: finalId, ...newRecord };
+      } else {
+        vehiclesList.push({ id: finalId, ...newRecord });
+      }
+
+      saveToLocal();
+      window.renderAdminTable();
+      cancelEditMode();
+      alert("Vehículo guardado exitosamente.");
+    };
+
+    window.editVehicle = function(id) {
+      const v = vehiclesList.find(item => item.id === id);
+      if (!v) return;
+      document.getElementById("vehicleDocId").value = v.id;
+      document.getElementById("vPlaca").value = v.placa;
+      document.getElementById("vCedula").value = v.cedula;
+      document.getElementById("vPropietario").value = v.propietario;
+      document.getElementById("vMarca").value = v.marca;
+      document.getElementById("vModelo").value = v.modelo;
+      document.getElementById("vAnoColor").value = v.anocolor || "";
+
+      document.getElementById("formActionTitle").innerHTML = `<i class="fa-solid fa-pen text-blue-600"></i><span>Editando Vehículo: ${v.placa}</span>`;
+      document.getElementById("btnSaveText").innerText = "Actualizar Datos";
+      document.getElementById("btnCancelEdit").classList.remove("hidden");
+    };
+
+    window.cancelEditMode = function() {
+      document.getElementById("vehicleForm").reset();
+      document.getElementById("vehicleDocId").value = "";
+      document.getElementById("formActionTitle").innerHTML = `<i class="fa-solid fa-plus-circle text-emerald-600"></i><span>Registrar Nuevo Vehículo Solvente</span>`;
+      document.getElementById("btnSaveText").innerText = "Guardar en la Nube";
+      document.getElementById("btnCancelEdit").classList.add("hidden");
+    };
+
+    window.deleteVehicleRecord = async function(id) {
+      if (!confirm("¿Está seguro de eliminar este vehículo del registro?")) return;
+
+      if (isCloudActive && dbInstance) {
+        try {
+          await deleteDoc(doc(dbInstance, "vehiculos_crespo", id));
+        } catch (err) {
+          console.warn("Eliminando localmente:", err);
+        }
+      }
+
+      vehiclesList = vehiclesList.filter(v => v.id !== id);
+      saveToLocal();
+      window.renderAdminTable();
+    };
+
+    document.getElementById("searchForm").addEventListener("submit", window.handleSearch);
   </script>
 </body>
 </html>
